@@ -28,7 +28,16 @@ export class UserController {
     try {
       return await this.userService.getAllUsers();
     } catch (error) {
-      throw new HttpException('Failed to fetch users', HttpStatus.BAD_REQUEST);
+      if (error.code === 11000) {
+        throw new HttpException('Email already exists', HttpStatus.CONFLICT);
+      }
+      if (error.code === 400) {
+        throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+      }
+      throw new HttpException(
+        'Failed to process request',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
