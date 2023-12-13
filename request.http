@@ -1,0 +1,18 @@
+### Register New User
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Kim kress",
+  "email": "kim@kress.com",
+  "password": "password@2023",
+  "location": "Korea city"
+}
+
+###
+
+### Get All Users
+GET http://localhost:8080/users
+
+### WEATHER API ---------
+
