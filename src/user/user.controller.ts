@@ -19,7 +19,6 @@ export class UserController {
       const user = await this.userService.createUser(createUserDto);
       return user;
     } catch (error) {
-      console.log(error.code, 'test');
       if (error.code === 11000) {
         throw new HttpException('Email already exists', HttpStatus.CONFLICT);
       }

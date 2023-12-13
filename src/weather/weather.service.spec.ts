@@ -3,6 +3,7 @@ import { WeatherService } from './weather.service';
 import { Weather } from './schemas/weather.schema';
 import { getModelToken } from '@nestjs/mongoose';
 import { HttpService } from '@nestjs/axios';
+import { of } from 'rxjs';
 
 describe('WeatherService', () => {
   let service: WeatherService;
@@ -54,23 +55,65 @@ describe('WeatherService', () => {
     jest.clearAllMocks();
   });
 
+  describe('WeatherService', () => {
+    let weatherService: WeatherService;
+    let httpService: HttpService;
+    let weatherModel;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          WeatherService,
+          {
+            provide: HttpService,
+            useValue: {
+              get: jest.fn(() =>
+                of({
+                  data: {
+                    ...dummyWeatherData,
+                  },
+                }),
+              ),
+            },
+          },
+          {
+            provide: getModelToken(Weather.name),
+            useValue: {
+              // new: jest.fn().mockResolvedValue(dummyWeatherData),
+              constructor: jest.fn().mockResolvedValue(dummyWeatherData),
+              deleteMany: jest.fn(),
+              save: jest.fn(),
+            },
+          },
+        ],
+      }).compile();
+
+      weatherService = module.get<WeatherService>(WeatherService);
+      httpService = module.get<HttpService>(HttpService);
+      weatherModel = module.get(getModelToken(Weather.name));
+    });
+
+    it('should be defined', () => {
+      expect(weatherService).toBeDefined();
+    });
+
+    describe('fetchWeatherData', () => {
+      it('should fetch and save weather data', async () => {
+        await weatherService.fetchWeatherData();
+        expect(httpService.get).toHaveBeenCalled();
+        expect(weatherModel.deleteMany).toHaveBeenCalled();
+        // expect(weatherModel.save).toHaveBeenCalled();
+      });
+    });
+  });
+
   // describe('fetchWeatherData', () => {
-  //   // const mockWeatherModel = {
-  //   //   deleteMany: jest.fn().mockResolvedValue({}),
-  //   //   save: jest
-  //   //     .fn()
-  //   //     .mockImplementation(() => Promise.resolve(dummyWeatherData)),
-  //   // };
   //   const mockSaveWeather = jest.fn();
 
   //   const mockWeatherModel = jest.fn().mockImplementation(() => ({
   //     save: mockSaveWeather,
   //     deleteMany: mockSaveWeather,
   //   }));
-
-  //   // const mockHttpService = {
-  //   //   get: mockSaveWeather.mockReturnValue(of({ data: dummyWeatherData })),
-  //   // };
 
   //   beforeEach(async () => {
   //     const module: TestingModule = await Test.createTestingModule({
@@ -79,7 +122,7 @@ describe('WeatherService', () => {
   //         {
   //           provide: HttpService,
   //           useValue: {
-  //             get: jest.fn().mockReturnValue(of({ data: dummyWeatherData })),
+  //             get: mockSaveWeather.mockReturnValue(dummyWeatherData),
   //           },
   //         },
   //         {
@@ -90,15 +133,6 @@ describe('WeatherService', () => {
   //     }).compile();
 
   //     service = module.get<WeatherService>(WeatherService);
-  //     const httpService = module.get<HttpService>(HttpService);
-  //     const response: any = {
-  //       data: dummyWeatherData,
-  //       status: 200,
-  //       statusText: 'OK',
-  //       headers: {},
-  //     };
-
-  //     jest.spyOn(httpService, 'get').mockReturnValue(of(response));
   //   });
 
   //   it('should be defined', () => {
@@ -108,7 +142,6 @@ describe('WeatherService', () => {
   //   it('should fetch weather data and save it', async () => {
   //     mockWeatherModel.mockResolvedValue(dummyWeatherData);
   //     const result = await service.fetchWeatherData();
-  //     console.log(result, 'fdjikfj');
 
   //     expect(result).toBeDefined();
   //     expect(result).toEqual(dummyWeatherData);
