@@ -9,7 +9,6 @@ Content-Type: application/json
   "location": "Korea city"
 }
 
-###
 
 ### Get All Users
 GET http://localhost:8080/users
