@@ -1,6 +1,4 @@
 # Nest challenge with MongoDB
-![image](https://github.com/nsanzimfura-eric/nest-challenge-with-mongodb/assets/91186046/18f3cbea-3dcf-479e-9cd2-8805a59b7a0f)
-
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
