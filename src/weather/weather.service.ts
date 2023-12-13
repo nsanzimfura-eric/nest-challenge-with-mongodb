@@ -13,8 +13,10 @@ export class WeatherService {
     @InjectModel(Weather.name) private weatherModel: Model<Weather>,
   ) {}
 
-  //get weather data every 10 min, and save them to the db
-  @Cron(CronExpression.EVERY_10_MINUTES)
+  //get weather data every 1 min, and save them to the db
+  // Not here I used very short time interval(1 min), just for testing and we leave console.log there for a proof
+  // This means that every 1 sec, we console.log, data from the dab after fetching and save them to the db
+  @Cron(CronExpression.EVERY_MINUTE)
   async fetchWeatherData(): Promise<Weather> {
     try {
       const response = await firstValueFrom(
@@ -22,6 +24,8 @@ export class WeatherService {
           `https://api.weatherapi.com/v1/current.json?q=SW1&lang=fr&key=${process.env.WEATHER_API_KEY}`,
         ),
       );
+      console.log(response, response.data, 'test--');
+      console.log(process.env.WEATHER_API_KEY);
       //if we get new data, we Clear previous data
       if (response.data) {
         await this.weatherModel.deleteMany({});
