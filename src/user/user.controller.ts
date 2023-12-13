@@ -19,6 +19,10 @@ export class UserController {
       const user = await this.userService.createUser(createUserDto);
       return user;
     } catch (error) {
+      console.log(error.code, 'test');
+      if (error.code === 11000) {
+        throw new HttpException('Email already exists', HttpStatus.CONFLICT);
+      }
       throw new HttpException('Failed to create user', HttpStatus.BAD_REQUEST);
     }
   }
@@ -28,12 +32,6 @@ export class UserController {
     try {
       return await this.userService.getAllUsers();
     } catch (error) {
-      if (error.code === 11000) {
-        throw new HttpException('Email already exists', HttpStatus.CONFLICT);
-      }
-      if (error.code === 400) {
-        throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-      }
       throw new HttpException(
         'Failed to process request',
         HttpStatus.INTERNAL_SERVER_ERROR,
