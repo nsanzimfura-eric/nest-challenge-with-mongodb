@@ -24,8 +24,7 @@ export class WeatherService {
           `https://api.weatherapi.com/v1/current.json?q=SW1&lang=fr&key=${process.env.WEATHER_API_KEY}`,
         ),
       );
-      console.log(response, response.data, 'test--');
-      console.log(process.env.WEATHER_API_KEY);
+      console.log(response.data, 'test--');
       //if we get new data, we Clear previous data
       if (response.data) {
         await this.weatherModel.deleteMany({});
@@ -33,14 +32,7 @@ export class WeatherService {
         return await newWeather.save();
       }
     } catch (error) {
-      if (error.response) {
-        console.error(`API Error: ${error.response.data}`);
-      } else if (error.request) {
-        console.error(`Network Error: ${error.message}`);
-      } else {
-        console.error(`An error occurred: ${error.message}`);
-      }
-      throw error;
+      console.log(error);
     }
   }
 
