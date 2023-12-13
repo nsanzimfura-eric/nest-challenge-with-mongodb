@@ -54,8 +54,77 @@ describe('WeatherService', () => {
     jest.clearAllMocks();
   });
 
+  // describe('fetchWeatherData', () => {
+  //   // const mockWeatherModel = {
+  //   //   deleteMany: jest.fn().mockResolvedValue({}),
+  //   //   save: jest
+  //   //     .fn()
+  //   //     .mockImplementation(() => Promise.resolve(dummyWeatherData)),
+  //   // };
+  //   const mockSaveWeather = jest.fn();
+
+  //   const mockWeatherModel = jest.fn().mockImplementation(() => ({
+  //     save: mockSaveWeather,
+  //     deleteMany: mockSaveWeather,
+  //   }));
+
+  //   // const mockHttpService = {
+  //   //   get: mockSaveWeather.mockReturnValue(of({ data: dummyWeatherData })),
+  //   // };
+
+  //   beforeEach(async () => {
+  //     const module: TestingModule = await Test.createTestingModule({
+  //       providers: [
+  //         WeatherService,
+  //         {
+  //           provide: HttpService,
+  //           useValue: {
+  //             get: jest.fn().mockReturnValue(of({ data: dummyWeatherData })),
+  //           },
+  //         },
+  //         {
+  //           provide: getModelToken(Weather.name),
+  //           useValue: mockWeatherModel,
+  //         },
+  //       ],
+  //     }).compile();
+
+  //     service = module.get<WeatherService>(WeatherService);
+  //     const httpService = module.get<HttpService>(HttpService);
+  //     const response: any = {
+  //       data: dummyWeatherData,
+  //       status: 200,
+  //       statusText: 'OK',
+  //       headers: {},
+  //     };
+
+  //     jest.spyOn(httpService, 'get').mockReturnValue(of(response));
+  //   });
+
+  //   it('should be defined', () => {
+  //     expect(service).toBeDefined();
+  //   });
+
+  //   it('should fetch weather data and save it', async () => {
+  //     mockWeatherModel.mockResolvedValue(dummyWeatherData);
+  //     const result = await service.fetchWeatherData();
+  //     console.log(result, 'fdjikfj');
+
+  //     expect(result).toBeDefined();
+  //     expect(result).toEqual(dummyWeatherData);
+  //     expect(result).toEqual(
+  //       expect.objectContaining({
+  //         current: expect.any(Object),
+  //         location: expect.any(Object),
+  //       }),
+  //     );
+  //     expect(mockWeatherModel).toHaveBeenCalled();
+  //     expect(mockWeatherModel).toHaveBeenCalledWith(dummyWeatherData);
+  //   });
+  // });
+
   //  fetch WeatherData from the db
-  describe('Get WeatherData service', () => {
+  describe('getLatestWeatherDataFromDB', () => {
     const mockWeatherModel = {
       find: jest.fn().mockReturnValue({
         exec: jest.fn().mockResolvedValue([dummyWeatherData]),
