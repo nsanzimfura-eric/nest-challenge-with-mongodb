@@ -3,10 +3,10 @@ POST http://localhost:8080/users/register
 Content-Type: application/json
 
 {
-  "username": "Kim kress",
-  "email": "kim@kress.com",
+  "username": "Nsanzimfura eric",
+  "email": "nsanzimfura@kress.com",
   "password": "password@2023",
-  "location": "Korea city"
+  "location": "Rwanda"
 }
 
 

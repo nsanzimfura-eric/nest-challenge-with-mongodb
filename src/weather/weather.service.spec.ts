@@ -102,59 +102,9 @@ describe('WeatherService', () => {
         await weatherService.fetchWeatherData();
         expect(httpService.get).toHaveBeenCalled();
         expect(weatherModel.deleteMany).toHaveBeenCalled();
-        // expect(weatherModel.save).toHaveBeenCalled();
       });
     });
   });
-
-  // describe('fetchWeatherData', () => {
-  //   const mockSaveWeather = jest.fn();
-
-  //   const mockWeatherModel = jest.fn().mockImplementation(() => ({
-  //     save: mockSaveWeather,
-  //     deleteMany: mockSaveWeather,
-  //   }));
-
-  //   beforeEach(async () => {
-  //     const module: TestingModule = await Test.createTestingModule({
-  //       providers: [
-  //         WeatherService,
-  //         {
-  //           provide: HttpService,
-  //           useValue: {
-  //             get: mockSaveWeather.mockReturnValue(dummyWeatherData),
-  //           },
-  //         },
-  //         {
-  //           provide: getModelToken(Weather.name),
-  //           useValue: mockWeatherModel,
-  //         },
-  //       ],
-  //     }).compile();
-
-  //     service = module.get<WeatherService>(WeatherService);
-  //   });
-
-  //   it('should be defined', () => {
-  //     expect(service).toBeDefined();
-  //   });
-
-  //   it('should fetch weather data and save it', async () => {
-  //     mockWeatherModel.mockResolvedValue(dummyWeatherData);
-  //     const result = await service.fetchWeatherData();
-
-  //     expect(result).toBeDefined();
-  //     expect(result).toEqual(dummyWeatherData);
-  //     expect(result).toEqual(
-  //       expect.objectContaining({
-  //         current: expect.any(Object),
-  //         location: expect.any(Object),
-  //       }),
-  //     );
-  //     expect(mockWeatherModel).toHaveBeenCalled();
-  //     expect(mockWeatherModel).toHaveBeenCalledWith(dummyWeatherData);
-  //   });
-  // });
 
   //  fetch WeatherData from the db
   describe('getLatestWeatherDataFromDB', () => {
